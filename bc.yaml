@@ -1,0 +1,33 @@
+kind: BuildConfig
+apiVersion: build.openshift.io/v1
+metadata:
+  name: jupyterhub-img
+  labels:
+    app: jupyterhub
+spec:
+  output:
+    to:
+      kind: DockerImage
+      name: 'quay.io/maulikjs/jupyterhub-img:v3.5.3-bc-1'
+    pushSecret:
+      name: maulikjs-jupyterhubimagepusher-pull-secret
+  resources:
+    limits:
+      cpu: '2'
+      memory: 4Gi
+    requests:
+      cpu: '1'
+      memory: 2Gi
+  strategy:
+    type: Source
+    sourceStrategy:
+      from:
+        kind: DockerImage
+        name: 'quay.io/odh-jupyterhub/jupyterhub:v3.5.3'
+  source:
+    type: Git
+    git:
+      uri: 'https://github.com/maulikjs/jupyterhub-odh'
+      ref: master
+  triggers:
+    - type: ConfigChange
