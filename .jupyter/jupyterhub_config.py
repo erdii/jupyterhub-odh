@@ -14,11 +14,6 @@ c.JupyterHub.cleanup_servers = False
 
 
 import uuid
-c.ConfigurableHTTPProxy.auth_token = str(uuid.uuid4())
-public_service_dict = {
-                        'PROXY_TOKEN': c.ConfigurableHTTPProxy.auth_token,
-                        'PROXY_API_URL': 'http://%s:%d/' % ("127.0.0.1", 8082)
-                    }
 public_service_dict.update(os.environ)
 jsp_api_dict = {
     'KUBERNETES_SERVICE_HOST': os.environ['KUBERNETES_SERVICE_HOST'],
@@ -26,11 +21,6 @@ jsp_api_dict = {
     'JUPYTERHUB_LOGIN_URL': None
 }
 c.JupyterHub.services = [
-                            {
-                                'name': 'public',
-                                'command': ['bash', '-c', 'jupyter_publish_service'],
-                                'environment': public_service_dict
-                            },
                             {
                                 'name': 'jsp-api',
                                 'url': 'http://127.0.0.1:8181',
@@ -192,7 +182,7 @@ class UILinkParser(HTMLParser):
             self.generate_link()
         if self.tag == 'html':
             self.html_tag.append(self.getpos()[1])
-    
+
     def handle_endtag(self, tag):
         if tag == 'html':
             self.html_tag.append(self.getpos()[1])
@@ -277,4 +267,3 @@ c.KubeSpawner.user_storage_class = os.environ.get("JUPYTERHUB_STORAGE_CLASS", c.
 admin_users = os.environ.get('JUPYTERHUB_ADMIN_USERS')
 if admin_users:
     c.Authenticator.admin_users = set(admin_users.split(','))
-    
