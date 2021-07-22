@@ -423,7 +423,7 @@
         "jupyterhub-traefik-proxy": {
             "editable": true,
             "git": "https://github.com/erdii/traefik-proxy-1.git",
-            "ref": "cfc932829c6a5a5ca96f19c110ad9b2101cc4001"
+            "ref": "51309700b58db899efd8ad729d4f9217d247b21f"
         },
         "kubernetes": {
             "hashes": [
